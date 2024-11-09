@@ -174,7 +174,7 @@
               <th>Case</th>
               <th>Quantity</th>
               <th>Added</th>
-              <th>Action</th>
+              {{-- <th>Action</th> --}}
             </tr>
           </thead>
           <tbody>
@@ -284,19 +284,33 @@
             //       : 'N/A';
                   var createdAtDate = new Date(transaction.date);
       var formattedDate = createdAtDate.toISOString().split('T')[0];
-            transactionsTable.find('tbody').append(`
+          //   transactionsTable.find('tbody').append(`
+          //                   <tr>
+          //                       <td>${transaction.delivery.delivery_out_id}/${transaction.serial_number}</td>
+          //                       <td>${formattedDate}</td>
+          //                       <td>${transaction.category?.name }</td>
+          //                       <td>${transaction.measurements.name}</td>
+          //                       <td>${transaction.cage?.case_name ?? 'N/A'}</td>
+          //                       <td>${transaction.product_weight}</td>
+          //                       <td>${transaction.user.name}<br><span class="badge badge-info">${transaction.user.uid}</span></td>
+          //                       <td>
+          //                         <a href="#" class="pr-2"><i class="nc-icon nc-tag-content"></i></a>
+          //                         <a href="#"><i class="nc-icon nc-basket"></i></a>
+          //                       </td>
+          //                   </tr>
+          //               `);
+          //               dinTrxTitle.text(`Transactions of ${transaction.delivery.delivery_out_id}`);
+          //               i++;
+          // });
+          transactionsTable.find('tbody').append(`
                             <tr>
-                                <td>${transaction.delivery.delivery_out_id}/${i}</td>
+                                <td>${transaction.delivery.delivery_out_id}/${transaction.serial_number}</td>
                                 <td>${formattedDate}</td>
                                 <td>${transaction.category?.name }</td>
                                 <td>${transaction.measurements.name}</td>
                                 <td>${transaction.cage?.case_name ?? 'N/A'}</td>
                                 <td>${transaction.product_weight}</td>
                                 <td>${transaction.user.name}<br><span class="badge badge-info">${transaction.user.uid}</span></td>
-                                <td>
-                          <a href="#" class="pr-2"><i class="nc-icon nc-tag-content"></i></a>
-                          <a href="#"><i class="nc-icon nc-basket"></i></a>
-                        </td>
                             </tr>
                         `);
                         dinTrxTitle.text(`Transactions of ${transaction.delivery.delivery_out_id}`);

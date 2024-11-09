@@ -11,6 +11,7 @@ use App\Models\Production;
 use Illuminate\Http\Request;
 use App\Models\MeasurementType;
 use Illuminate\Http\JsonResponse;
+use App\Models\ProductTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProductionTransaction;
@@ -18,7 +19,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductionResource;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\Http\Controllers\Api\BaseController as BaseController;
-
 
 class ProductionController extends BaseController
 {
@@ -113,6 +113,18 @@ class ProductionController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
+
+        $getTransactionNumber = ProductionTransaction::where('production_id', $request->production_id)->latest()->first();
+
+        if(!empty($getTransactionNumber)){
+            $serial =  ++$getTransactionNumber->serial_number;
+
+        }else{
+            $serial = 1;
+        }
+
+
+        $input['serial_number'] = $serial;
    
         $data = ProductionTransaction::create($input);
         $production = Production::find($request->production_id);
@@ -120,6 +132,7 @@ class ProductionController extends BaseController
         $production['weight'] = $request->weight;
         $production['grade'] = $request->grade;
         $production->save();
+        
         return $this->sendResponse(new ProductionResource($data), 'Product created successfully.');
    
         //
@@ -151,6 +164,9 @@ class ProductionController extends BaseController
         return $this->sendResponse($data, 'data retrieved successfully.');
 
     }
+
+
+    
     public function showTransactionByProduction($pid): JsonResponse
     {
         //dd($id);

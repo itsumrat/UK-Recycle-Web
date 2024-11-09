@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductionTransaction extends Model
 {
     use HasFactory;
     protected $table="production_transactions";
-    protected $fillable = ['production_id','grade','weight','status'];
+    protected $fillable = ['production_id','grade','weight','status', 'serial_number'];
 
     public function categories()
     {

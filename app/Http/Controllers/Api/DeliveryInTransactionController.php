@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Validator;
 use App\Models\CaseList;
 use App\Models\DeliveryIn;
+use App\Models\Production;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\MeasurementType;
@@ -14,6 +15,7 @@ use App\Models\ProductTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DeliveryInTransaction;
+use App\Models\ProductionTransaction;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\DeliveryInTransactionResource;
 
@@ -95,8 +97,16 @@ class DeliveryInTransactionController extends BaseController
         }
 
        
-        
+        $getTransactionNumber = DeliveryInTransaction::where('delivery_id', $request->delivery_id)->latest()
+        ->first();
 
+        if(!empty($getTransactionNumber)){
+            $serial =  ++$getTransactionNumber->serial_number;
+        }else{
+            $serial = 1;
+        }
+        
+        $data['serial_number'] = $serial;
         $data['category_id'] = $request->category_id;
 
         $data->save();

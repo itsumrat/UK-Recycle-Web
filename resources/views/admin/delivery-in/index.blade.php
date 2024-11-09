@@ -312,7 +312,7 @@
                 var formattedDate = createdAtDate.toISOString().split('T')[0];
                 transactionsTable.find('tbody').append(`
                                 <tr>
-                                    <td>${transaction.delivery.delivery_in_id}/${i}</td>
+                                    <td>${transaction.delivery.delivery_in_id}/${transaction.serial_number}</td>
                                     <td>${formattedDate}</td>
                                     <td>${transaction.category?.name}</td>
                                     <td>${transaction.measurements.name}</td>

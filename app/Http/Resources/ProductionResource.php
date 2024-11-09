@@ -20,6 +20,7 @@ class ProductionResource extends JsonResource
             'weight' => $this->weight,
             'grade_id' => $this->grade,
             'grades' => $this->grades,
+            'serial_number' => $this->serial_number,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];

@@ -22,7 +22,7 @@
         <tbody>
             @foreach ($deleveries as $k => $delevery)
                 <tr>
-                    <td>{{ $delevery->delivery->delivery_in_id }}/{{ ++$k }}</td>
+                    <td>{{ $delevery->delivery->delivery_in_id }}/{{ $delevery->serial_number }}</td>
                     <td>{{ $delevery->date }}</td>
                     <td>{{ !empty($delevery->category) ? $delevery->category->name : '-' }}</td>
                     <td>{{ !empty($delevery->measurements) ? $delevery->measurements->name : '-' }}</td>

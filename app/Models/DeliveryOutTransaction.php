@@ -9,7 +9,7 @@ class DeliveryOutTransaction extends Model
 {
     use HasFactory;
     protected $table="delivery_out_transactions";
-    protected $fillable = ['date','delivery_id','weight','measurement','added_by','case_id'];
+    protected $fillable = ['date','delivery_id','weight','measurement','added_by','case_id', 'serial_number'];
 
 
     

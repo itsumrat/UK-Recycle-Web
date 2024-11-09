@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exports\DeleveryOut;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Api\BaseController;
-use App\Http\Resources\DeliveryOutTransactionResource;
+use Validator;
 use App\Models\CaseList;
 use App\Models\DeliveryOut;
-use App\Models\DeliveryOutTransaction;
+use App\Exports\DeleveryOut;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\MeasurementType;
 use App\Models\ProductCategory;
-use App\Models\ProductTransaction;
-use Illuminate\Support\Facades\Auth;
-use Validator;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Carbon;
+use App\Models\ProductTransaction;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\DeliveryOutTransaction;
+use App\Http\Controllers\Api\BaseController;
+use App\Http\Resources\DeliveryOutTransactionResource;
 
 class DeliveryOutTransactionController extends BaseController
 {
@@ -68,6 +68,16 @@ class DeliveryOutTransactionController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
+
+        $getTransactionNumber = DeliveryOutTransaction::where('delivery_id', $request->delivery_id)->latest()->first();
+
+        if(!empty($getTransactionNumber)){
+            $serial =  ++$getTransactionNumber->serial_number;
+
+        }else{
+            $serial = 1;
+        }
+
         $data = DeliveryOutTransaction::create($input);
         $data['delivery_id'] = $request->delivery_id;
         $data['date'] = $date;
@@ -80,6 +90,11 @@ class DeliveryOutTransactionController extends BaseController
         $data['product_weight'] = ($request->product_weight - $request->weight);
 
         $data['category_id'] = $request->category_id;
+
+
+       
+        
+        $data['serial_number'] = $serial;
 
         $data->save();
       //  $data['product_weight'] = $request->weight - $cage->weight;
